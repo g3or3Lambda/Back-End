@@ -11,8 +11,9 @@ const findById = (plant_id) => {
 }
 
 const add = async (newPlant) => {
-    const [plant_id] = await db('plants').insert(newPlant)
-    return findById(plant_id);
+    const [plant_id] = await db('plants').insert(newPlant, "plant_id");
+    console.log(plant_id)
+    return findById(plant_id)
 }
 
 const update = async (id, updatedPlant) => {
