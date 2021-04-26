@@ -11,7 +11,7 @@ const findById = (plant_id) => {
 }
 
 const add = async (newPlant) => {
-    const [plant_id] = await db('plants').insert(newPlant);
+    const [plant_id] = await db('plants').insert(newPlant)
     return findById(plant_id);
 }
 
@@ -20,10 +20,15 @@ const update = async (id, updatedPlant) => {
     return findById(id);
 }
 
+const remove = async (id) => {
+    return db('plants').where("plant_id", id).del();
+}
+
 
 module.exports = {
     find,
     findById,
     add,
-    update
+    update,
+    remove
 }

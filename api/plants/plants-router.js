@@ -38,8 +38,11 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res) => {
-
-})
+    const { id } = req.params;
+    Plants.remove(id).then(response => {
+        res.status(200).json(response);
+    })
+});
 
 router.use((err, req, res, next) => {// eslint-disable-line
     res.status(req.status || 500).json({
