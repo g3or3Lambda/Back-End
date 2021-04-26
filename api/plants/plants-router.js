@@ -18,12 +18,23 @@ router.get('/:id', (req, res, next) => {
         .catch(next)
 })
 
-router.post('/', (req, res) => {
-
+router.post('/', (req, res, next) => {
+    const body = req.body;
+    Plants.add(body)
+        .then(newPlant => {
+            res.status(200).json(newPlant);
+        })
+        .catch(next)
 })
 
-router.put('/:id', (req, res) => {
-
+router.put('/:id', (req, res, next) => {
+    const body = req.body;
+    const { id } = req.params;
+    Plants.update(id, body)
+        .then(newPlant => {
+            res.status(200).json(newPlant);
+        })
+        .catch(next)
 })
 
 router.delete('/:id', (req, res) => {
