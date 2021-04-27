@@ -9,12 +9,12 @@ function findById(id) {
 
 function findBy(filter) {
     return db('users')
-    .select('user_id', 'username', 'password', 'phoneNumber')
-    .where(filter)
+        .select('user_id', 'username', 'password', 'phoneNumber')
+        .where(filter)
 }
 
 async function add(user) {
-    const [id] = await db('users').insert(user);
+    const [id] = await db('users').insert(user, "user_id");
     return findById(id);
 }
 
