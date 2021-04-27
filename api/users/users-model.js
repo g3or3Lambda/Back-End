@@ -1,33 +1,40 @@
-const db = require('../data/db-config');
+const db = require('../data/db-config')
+
+function find() {
+  return db('users')
+}
 
 function findById(id) {
-    return db('users')
-        .select('user_id', 'username', 'password', 'phoneNumber')
-        .where('user_id', id)
-        .first()
+  return db('users')
+    .select('user_id', 'username', 'password', 'phoneNumber')
+    .where('user_id', id)
+    .first()
 }
 
 function findBy(filter) {
-    return db('users')
-        .select('user_id', 'username', 'password', 'phoneNumber')
-        .where(filter)
+  return db('users')
+    .select('user_id', 'username', 'password', 'phoneNumber')
+    .where(filter)
 }
 
 async function add(user) {
-    const [id] = await db('users').insert(user, "user_id");
-    return findById(id);
+  const [id] = await db('users').insert(user, 'user_id')
+  return findById(id)
 }
 
-function update(id, changes) {
-    return db('users')
-        .select('user_id', 'username', 'password', 'phoneNumber')
-        .where('user_id', id)
-        .update(changes)
+async function update(id, changes) {
+  await db('users')
+    .select('user_id', 'username', 'password', 'phoneNumber')
+    .where('user_id', id)
+    .update(changes)
+
+  return findById(id)
 }
 
 module.exports = {
-    findById,
-    add,
-    findBy,
-    update
+  find,
+  findById,
+  add,
+  findBy,
+  update,
 }
