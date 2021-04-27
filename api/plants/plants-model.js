@@ -14,9 +14,9 @@ const add = async (newPlant) => {
   return findById(plant_id)
 }
 
-const update = async (id, updatedPlant) => {
-  await db('plants').update(updatedPlant).where('plant_id', id)
-  return findById(id)
+const update = async (plant_id, updatedPlant) => {
+  await db('plants').update(updatedPlant).where('plant_id', plant_id)
+  return findById(plant_id)
 }
 
 const remove = async (id) => {
