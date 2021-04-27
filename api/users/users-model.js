@@ -19,10 +19,9 @@ async function add(user) {
 }
 
 function update(id, changes) {
-    update('users')
-        .set(changes)
+    return db('users')
         .where('user_id', id)
-        return '*'
+        .update(changes)
 }
 
 module.exports = {
