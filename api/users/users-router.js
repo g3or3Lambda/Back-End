@@ -1,13 +1,19 @@
 //authenticated users must be able to update their own phone number and password
+const bcrypt = require('bcryptjs');
 const router = require('express').Router()
 const Users = require('./users-model')
 const restricted = require('../auth/auth-middleware')
 const { checkUserId } = require('./users-middleware')
 
-router.put('/:id', restricted, checkUserId, (req, res) => {
-  const { id } = req.params
-  const changes = req.body
-  Users.update(id, changes)
+router.put('/', restricted, (req, res) => {
+  const user_id = req.decoded.subject;
+
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 12);
+
+  user.password = hash;
+
+  Users.update(user_id, user)
     .then((updated) => {
       res.status(200).json(updated)
     })
