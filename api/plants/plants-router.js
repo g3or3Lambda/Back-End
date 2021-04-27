@@ -1,52 +1,52 @@
-const router = require('express').Router()
-const Plants = require('./plants-model')
-const restricted = require('../auth/auth-middleware')
+const router = require('express').Router();
+const verifyPlant = require('../middleware/verifyPlant');
+const Plants = require('./plants-model');
 
-router.get('/', restricted, (req, res, next) => {
-  Plants.find()
+router.get('/', (req, res, next) => {
+  let user_id = req.decoded.subject;
+  Plants.findByUserId(user_id)
     .then((plants) => {
       res.status(200).json(plants)
     })
     .catch(next)
 })
 
-router.get('/:id', restricted, (req, res, next) => {
-  const { id } = req.params
-  Plants.findById(id)
-    .then((plant) => {
-      res.status(200).json(plant)
+router.get('/:id', verifyPlant, (req, res) => {
+  const plant = req.plant
+  res.status(200).json(plant)
+})
+
+router.post('/', (req, res, next) => {
+  const body = req.body
+  const decoded = req.decoded;
+  const plantToAdd = { ...body, user_id: decoded.user_id };
+  Plants.add(plantToAdd)
+    .then((newPlant) => {
+      res.status(201).json(newPlant)
     })
     .catch(next)
 })
 
-router.post('/', restricted, (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   const body = req.body
-  Plants.add(body)
+  const { id } = req.params
+  const decoded = req.decoded;
+  const plantToUpdate = { ...body, user_id: decoded.user_id };
+  Plants.update(id, plantToUpdate)
     .then((newPlant) => {
       res.status(200).json(newPlant)
     })
     .catch(next)
 })
 
-router.put('/:id', restricted, (req, res, next) => {
-  const body = req.body
-  const { id } = req.params
-  Plants.update(id, body)
-    .then((newPlant) => {
-      res.status(200).json(newPlant)
-    })
-    .catch(next)
-})
-
-router.delete('/:id', restricted, (req, res) => {
+router.delete('/:id', (req, res) => {
   const { id } = req.params
   Plants.remove(id).then((response) => {
     res.status(200).json(response)
   })
 })
 
-router.use((err, req, res, next) => {
-  // eslint-disable-line
+router.use((err, req, res, next) => { // eslint-disable-line
   res.status(req.status || 500).json({
     message: 'Something went terribly wrong.',
     error: err.message,

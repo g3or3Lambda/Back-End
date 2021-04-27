@@ -4,6 +4,10 @@ function find() {
   return db('plants')
 }
 
+function findByUserId(user_id) {
+  return db('plants').where('user_id', user_id)
+}
+
 const findById = (plant_id) => {
   return db('plants').where('plant_id', plant_id).first()
 }
@@ -29,4 +33,5 @@ module.exports = {
   add,
   update,
   remove,
+  findByUserId
 }
