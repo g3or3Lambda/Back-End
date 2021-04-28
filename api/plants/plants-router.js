@@ -19,7 +19,7 @@ router.get('/:id', verifyPlant, (req, res) => {
 router.post('/', (req, res, next) => {
   const body = req.body
   const decoded = req.decoded;
-  const plantToAdd = { ...body, user_id: decoded.user_id };
+  const plantToAdd = { ...body, user_id: decoded.subject };
   Plants.add(plantToAdd)
     .then((newPlant) => {
       res.status(201).json(newPlant)
@@ -31,7 +31,7 @@ router.put('/:id', (req, res, next) => {
   const body = req.body
   const { id } = req.params
   const decoded = req.decoded;
-  const plantToUpdate = { ...body, user_id: decoded.user_id };
+  const plantToUpdate = { ...body, user_id: decoded.subject };
   Plants.update(id, plantToUpdate)
     .then((newPlant) => {
       res.status(200).json(newPlant)
