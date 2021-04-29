@@ -78,7 +78,7 @@ returns an object containing the created user data and a token
 
 \*returns an object with new details if successful
 
-## Deleting a Recipe
+## Deleting a Plant
 
 **DELETE from /api/plants/:id**
 
