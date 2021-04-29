@@ -43,4 +43,14 @@ describe("auth router tests", () => {
             expect(response.body.message).toContain('invalid login credentials')
         })
     })
+    describe("user edit function", () => {
+        it("user can edit their phone number", async () => {
+            await request(server).post('/api/register').send(bob)
+            const response = await request(server).post('/api/login').send({username: 'bob', password: 'bob123'})
+            const token = response.body.token
+            await request(server).put('/api/user/3').send({password: 'bob789'}).set('Authorization', token)
+            const edit = await request(server).post('/api/login').send({username: 'bob', password: 'bob123'})
+            expect(edit.body).toContain('invalid login credentials')
+        })
+    })
 })
