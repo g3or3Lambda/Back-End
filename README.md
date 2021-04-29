@@ -50,7 +50,7 @@ returns an object containing the created user data and a token
 
 \*returns an array containing the details of each plant as an object
 
-## View a Specific Recipe
+## View a Specific Plant
 
 **GET from /api/plants/:id**
 
