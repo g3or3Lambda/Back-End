@@ -1,6 +1,6 @@
 ## Water-My-Plants - Back End
 
-### Heroku
+### Heroku - Live EndPoint
 
 https://tt46-plants.herokuapp.com/
 
